@@ -3,15 +3,21 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/nicolaszein/go-retro/handlers"
 )
 
 func main() {
-	fmt.Println("Starting server on port :8000")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8000"
+	}
+
+	fmt.Println("Starting server on port " + port)
 
 	http.HandleFunc("/", handlers.HealthCheck)
-	err := http.ListenAndServe(":8000", nil)
+	err := http.ListenAndServe(":"+port, nil)
 
 	if err != nil {
 		fmt.Println("Error serving:", err)
