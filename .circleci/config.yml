@@ -6,12 +6,22 @@ jobs:
   build:
     docker:
       - image: circleci/golang:1.10
+        environment:
+          CC_TEST_REPORTER_ID: 5671accddeba3aecd5f4fb2cc5572ba92d1b76a79e96ebde034d77258c4230cb
 
     working_directory: /go/src/github.com/nicolaszein/go-retro
     steps:
       - checkout
 
       - run:
+          name: Install Code Climate
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+
+      - run:
           name: Run Tests
           command: |
-            go test ./...
+            ./cc-test-reporter before-build
+            go test ./... -coverprofile c.out
+            ./cc-test-reporter after-build --coverage-input-type gocov
