@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/go-chi/chi"
+	"github.com/jinzhu/gorm"
 	"github.com/nicolaszein/go-retro/handlers"
 	"github.com/nicolaszein/go-retro/settings"
 )
@@ -13,11 +15,19 @@ func main() {
 	if port == "" {
 		port = "8000"
 	}
+	fmt.Println(settings.DATABASE_URL)
+	db, err := gorm.Open("postgres", settings.DATABASE_URL)
+	if err != nil {
+		fmt.Println("Failed to connect database")
+	}
+	defer db.Close()
 
 	fmt.Println("Starting server on port " + port)
 
-	http.HandleFunc("/", handlers.HealthCheck)
-	err := http.ListenAndServe(":"+port, nil)
+	r := chi.NewRouter()
+	r.Get("/", handlers.HealthCheck)
+
+	err = http.ListenAndServe(":"+port, r)
 
 	if err != nil {
 		fmt.Println("Error serving:", err)

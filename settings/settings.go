@@ -19,4 +19,5 @@ func init() {
 	}
 
 	PORT = os.Getenv("PORT")
+	DATABASE_URL = os.Getenv("DATABASE_URL")
 }

@@ -2,6 +2,24 @@
 
 
 [[projects]]
+  name = "github.com/go-chi/chi"
+  packages = ["."]
+  revision = "e83ac2304db3c50cf03d96a2fcd39009d458bc35"
+  version = "v3.3.2"
+
+[[projects]]
+  name = "github.com/jinzhu/gorm"
+  packages = ["."]
+  revision = "6ed508ec6a4ecb3531899a69cbc746ccf65a4166"
+  version = "v1.9.1"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/jinzhu/inflection"
+  packages = ["."]
+  revision = "04140366298a54a039076d798123ffa108fff46c"
+
+[[projects]]
   name = "github.com/joho/godotenv"
   packages = ["."]
   revision = "a79fa1e548e2c689c241d10173efd51e5d689d5b"
@@ -10,6 +28,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "67bc2824bab59ac29fff55f1ff607b1555262763cff04ecc48a3a18c3b458d7d"
+  inputs-digest = "107953a0df09bd472470cee20d25856da35022db85db93f36c9ec3dbf3c88030"
   solver-name = "gps-cdcl"
   solver-version = 1
