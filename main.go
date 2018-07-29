@@ -6,6 +6,7 @@ import (
 
 	"github.com/go-chi/chi"
 	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/nicolaszein/go-retro/handlers"
 	"github.com/nicolaszein/go-retro/settings"
 )
@@ -15,10 +16,10 @@ func main() {
 	if port == "" {
 		port = "8000"
 	}
-	fmt.Println(settings.DATABASE_URL)
+
 	db, err := gorm.Open("postgres", settings.DATABASE_URL)
 	if err != nil {
-		fmt.Println("Failed to connect database")
+		fmt.Println("Failed to connect database with error: ", err)
 	}
 	defer db.Close()
 

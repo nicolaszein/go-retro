@@ -1,0 +1,7 @@
+development:
+  dialect: postgres
+  database: go_retro_development
+  user: development
+  password: development
+  host: 127.0.0.1
+  pool: 5
