@@ -3,13 +3,13 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"os"
 
 	"github.com/nicolaszein/go-retro/handlers"
+	"github.com/nicolaszein/go-retro/settings"
 )
 
 func main() {
-	port := os.Getenv("PORT")
+	port := settings.PORT
 	if port == "" {
 		port = "8000"
 	}
