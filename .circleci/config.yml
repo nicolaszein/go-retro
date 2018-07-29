@@ -8,16 +8,42 @@ jobs:
       - image: circleci/golang:1.10
         environment:
           CC_TEST_REPORTER_ID: 5671accddeba3aecd5f4fb2cc5572ba92d1b76a79e96ebde034d77258c4230cb
+      - image: postgres:9.6.6
 
     working_directory: /go/src/github.com/nicolaszein/go-retro
     steps:
       - checkout
 
       - run:
+          name: Add machine dependencies
+          command: sudo apt-get update && sudo apt-get install postgresql-client-9.6 -qy
+
+      - run:
           name: Install Code Climate
           command: |
             curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
             chmod +x ./cc-test-reporter
+
+      - run:
+          name: Install Dependencies
+          command: |
+            cp .env.sample .env
+            curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+            dep ensure
+
+      - run:
+          name: Setup DB
+          command: |
+            PGPASSWORD=root psql -h localhost -U postgres -c "CREATE DATABASE go_retro_test;"
+            PGPASSWORD=root psql -h localhost -U postgres -c "CREATE USER development;"
+
+      - run:
+          name: Migrate DB
+          command: |
+            wget  https://github.com/gobuffalo/buffalo/releases/download/v0.12.4/buffalo_0.12.4_linux_amd64.tar.gz
+            tar -xvzf buffalo_0.12.4_linux_amd64.tar.gz
+            sudo mv buffalo-no-sqlite /usr/local/bin/buffalo
+            buffalo db migrate up -e test
 
       - run:
           name: Run Tests

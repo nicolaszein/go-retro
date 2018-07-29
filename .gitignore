@@ -16,3 +16,6 @@
 
 # Main
 main
+
+# Env
+.env
