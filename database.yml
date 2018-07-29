@@ -5,3 +5,11 @@ development:
   password: development
   host: 127.0.0.1
   pool: 5
+
+test:
+  dialect: postgres
+  database: go_retro_test
+  user: development
+  password: development
+  host: 127.0.0.1
+  pool: 5

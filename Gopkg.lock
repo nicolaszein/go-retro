@@ -8,6 +8,12 @@
   version = "v3.3.2"
 
 [[projects]]
+  name = "github.com/gobuffalo/uuid"
+  packages = ["."]
+  revision = "3a9fb6c5c481d4886f1e9323c61ad743fb955860"
+  version = "v2.0.0"
+
+[[projects]]
   name = "github.com/jinzhu/gorm"
   packages = [
     ".",
@@ -41,6 +47,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "74d7ec9770ff37d08cef3a43349feb9f1211da79f561d17e225118599fb679de"
+  inputs-digest = "8fba9aa87eb78eec598f196807fc1b846890025c5d636d874e5894725c85b991"
   solver-name = "gps-cdcl"
   solver-version = 1
