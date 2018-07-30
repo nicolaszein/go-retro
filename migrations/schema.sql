@@ -29,6 +29,20 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
+--
+-- Name: uuid-ossp; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION "uuid-ossp"; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION "uuid-ossp" IS 'generate universally unique identifiers (UUIDs)';
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -49,7 +63,7 @@ ALTER TABLE public.schema_migration OWNER TO development;
 --
 
 CREATE TABLE public.teams (
-    id uuid NOT NULL,
+    id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
     name character varying(255) NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     created_at timestamp without time zone NOT NULL,
@@ -58,6 +72,14 @@ CREATE TABLE public.teams (
 
 
 ALTER TABLE public.teams OWNER TO development;
+
+--
+-- Name: teams teams_pkey; Type: CONSTRAINT; Schema: public; Owner: development
+--
+
+ALTER TABLE ONLY public.teams
+    ADD CONSTRAINT teams_pkey PRIMARY KEY (id);
+
 
 --
 -- Name: schema_migration_version_idx; Type: INDEX; Schema: public; Owner: development

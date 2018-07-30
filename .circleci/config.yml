@@ -36,6 +36,7 @@ jobs:
           command: |
             PGPASSWORD=root psql -h localhost -U postgres -c "CREATE DATABASE go_retro_test;"
             PGPASSWORD=root psql -h localhost -U postgres -c "CREATE USER development;"
+            PGPASSWORD=root psql -h localhost -U postgres -c "ALTER USER development WITH SUPERUSER;"
 
       - run:
           name: Migrate DB
