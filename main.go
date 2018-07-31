@@ -28,6 +28,16 @@ func main() {
 	r := chi.NewRouter()
 	r.Get("/", handlers.HealthCheck)
 
+	env := handlers.Env{
+		DB: db,
+	}
+
+	r.Route("/api/v1", func(r chi.Router) {
+		r.Route("/teams", func(r chi.Router) {
+			r.Post("/", env.CreateTeam)
+		})
+	})
+
 	err = http.ListenAndServe(":"+port, r)
 
 	if err != nil {

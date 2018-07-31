@@ -7,7 +7,7 @@ import (
 
 type Team struct {
 	Model
-	Name string `json:"name" db:"name"`
+	Name string `json:"name" db:"name" valid:"required"`
 }
 
 func FetchTeamByID(team_id uuid.UUID, team *Team, db *gorm.DB) error {
