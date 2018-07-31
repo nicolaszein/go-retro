@@ -10,9 +10,6 @@ type Team struct {
 	Name string `json:"name" db:"name"`
 }
 
-func FetchTeamByID(team_id *uuid.UUID, db *gorm.DB) (team Team, ok bool) {
-	team = Team{}
-	db.Where("id = ?", team_id).First(&team)
-	ok = team.ID.String() == team_id.String()
-	return team, ok
+func FetchTeamByID(team_id uuid.UUID, team *Team, db *gorm.DB) error {
+	return db.Where("id = ?", team_id).First(team).Error
 }

@@ -7,13 +7,15 @@ import (
 func TestFetchByID(t *testing.T) {
 	t.Run("with a persisted team", func(t *testing.T) {
 		cleanDatabase(testDB)
-		persisted_team := Team{Name: "Team Bacon"}
-		testDB.Create(&persisted_team)
+		persistedTeam := Team{Name: "Team Bacon"}
 
-		_, ok := FetchTeamByID(persisted_team.ID, testDB)
+		if err := testDB.Create(&persistedTeam).Error; err != nil {
+			t.Fatalf("Failed creating persistedTeam %v", err)
+		}
 
-		if !ok {
-			t.Errorf(`team shouldn't be nil`)
+		team := Team{}
+		if err := FetchTeamByID(persistedTeam.ID, &team, testDB); err != nil {
+			t.Fatalf("err should be nil, but got %v", err)
 		}
 	})
 }
