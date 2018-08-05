@@ -1,7 +1,7 @@
 package handlers
 
-import "github.com/jinzhu/gorm"
+import "github.com/nicolaszein/go-retro/database"
 
 type Env struct {
-	DB *gorm.DB
+	DB database.Database
 }
