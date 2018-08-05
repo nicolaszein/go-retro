@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -11,7 +12,7 @@ import (
 )
 
 func TestCreateTeamHandler(t *testing.T) {
-	cleanDatabase(testDB)
+	testDB.CleanDatabase()
 	handler := http.HandlerFunc(env.CreateTeam)
 	type response struct {
 		Data   models.Team       `json:"data"`
@@ -84,8 +85,12 @@ func TestCreateTeamHandler(t *testing.T) {
 	})
 
 	t.Run("with db error", func(t *testing.T) {
+		dbMock.Error = errors.New("Fuuuu")
+		env.DB = dbMock
+		handler := http.HandlerFunc(env.CreateTeam)
+
 		res := response{}
-		params := strings.NewReader(``)
+		params := strings.NewReader(`{"name": "Team Bacon"}`)
 		req, err := http.NewRequest("POST", "/api/v1/teams", params)
 		if err != nil {
 			t.Fatal(err)
@@ -94,17 +99,17 @@ func TestCreateTeamHandler(t *testing.T) {
 
 		handler.ServeHTTP(rr, req)
 
-		if status := rr.Code; status != http.StatusBadRequest {
+		if status := rr.Code; status != http.StatusInternalServerError {
 			t.Fatalf("handler returned wrong status code: got %v want %v",
-				status, http.StatusBadRequest)
+				status, http.StatusInternalServerError)
 		}
 
 		if err := json.NewDecoder(rr.Body).Decode(&res); err != nil {
 			t.Fatal(err)
 		}
 
-		if res.Errors["body"] != "invalid format" {
-			t.Fatalf("handler should return invalid body format, but got %v", res.Errors["body"])
+		if msg := "error trying to create team"; res.Errors["db"] != msg {
+			t.Fatalf("handler should return db error: %s, but got %v", msg, res.Errors["db"])
 		}
 	})
 }
