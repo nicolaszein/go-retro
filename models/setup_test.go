@@ -29,5 +29,6 @@ func init() {
 }
 
 func cleanDatabase(db *gorm.DB) {
+	db.Unscoped().Delete(&Retrospective{})
 	db.Unscoped().Delete(&Team{})
 }
