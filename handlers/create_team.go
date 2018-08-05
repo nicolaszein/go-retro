@@ -31,7 +31,7 @@ func (e Env) CreateTeam(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := e.DB.Create(&team).Error; err != nil {
+	if err := e.DB.Create(&team); err != nil {
 		response.Code = http.StatusInternalServerError
 		response.AddError("db", "error trying to create team")
 		response.Write(w)

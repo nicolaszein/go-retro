@@ -7,13 +7,15 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/joho/godotenv"
+	"github.com/nicolaszein/go-retro/database"
 	"github.com/nicolaszein/go-retro/models"
 )
 
 var (
-	testDB    *gorm.DB
+	testDB    *database.Postgres
 	connError error
 	env       Env
+	dbMock    *database.Mock
 )
 
 func init() {
@@ -22,8 +24,7 @@ func init() {
 		panic(".env load error!")
 	}
 
-	testDB, connError = gorm.Open("postgres", os.Getenv("TEST_DATABASE_URL"))
-
+	testDB, connError = database.NewPostgres(os.Getenv("TEST_DATABASE_URL"))
 	if connError != nil {
 		fmt.Println("Error while trying to connect with test database: ", connError)
 		panic("Database Error!")
@@ -32,6 +33,8 @@ func init() {
 	env = Env{
 		DB: testDB,
 	}
+
+	dbMock = &database.Mock{}
 }
 
 func cleanDatabase(db *gorm.DB) {
