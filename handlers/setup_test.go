@@ -28,9 +28,5 @@ func init() {
 		panic("Database Error!")
 	}
 
-	env = Env{
-		DB: testDB,
-	}
-
 	dbMock = &database.Mock{}
 }

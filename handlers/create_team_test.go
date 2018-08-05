@@ -12,6 +12,9 @@ import (
 )
 
 func TestCreateTeamHandler(t *testing.T) {
+	env = Env{
+		DB: testDB,
+	}
 	handler := http.HandlerFunc(env.CreateTeam)
 	type response struct {
 		Data   models.Team       `json:"data"`

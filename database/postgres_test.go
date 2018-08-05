@@ -117,6 +117,41 @@ func TestFetchTeamByID(t *testing.T) {
 	})
 }
 
+func TestFetchTeams(t *testing.T) {
+	t.Run("with a persisted teams", func(t *testing.T) {
+		testDB.CleanDatabase()
+		persistedTeam := models.Team{Name: "Team Bacon"}
+		if err := testDB.Create(&persistedTeam); err != nil {
+			t.Fatalf("Failed creating persistedTeam %v", err)
+		}
+		persistedTeam2 := models.Team{Name: "Team Bacon2"}
+		if err := testDB.Create(&persistedTeam2); err != nil {
+			t.Fatalf("Failed creating persistedTeam2 %v", err)
+		}
+
+		teams := []models.Team{}
+		if err := testDB.FetchTeams(&teams); err != nil {
+			t.Fatalf("err should be nil, but got %v", err)
+		}
+		if len(teams) != 2 {
+			t.Fatalf("teams len should be 2, but got %v", len(teams))
+		}
+	})
+
+	t.Run("with no team", func(t *testing.T) {
+		testDB.CleanDatabase()
+		team := models.Team{}
+		teamID, err := uuid.NewV4()
+		if err != nil {
+			t.Fatalf("error trying to create uuid")
+		}
+
+		if err := testDB.FetchTeamByID(teamID, &team); err == nil {
+			t.Fatalf("team should be nil, but got %v", team)
+		}
+	})
+}
+
 func TestFetchRetrospectivesByTeamID(t *testing.T) {
 	t.Run("with restrospectives with same team", func(t *testing.T) {
 		testDB.CleanDatabase()
