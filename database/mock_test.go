@@ -8,6 +8,16 @@ import (
 	"github.com/nicolaszein/go-retro/models"
 )
 
+func TestMockCreate(t *testing.T) {
+	dbMock.CleanDatabase()
+	team := models.Team{}
+	dbMock.Error = errors.New("error trying to create team")
+
+	if err := dbMock.Create(&team).Error; err == nil {
+		t.Fatalf("err should have value but got nil")
+	}
+}
+
 func TestMockFetchRetrospectivesByTeamID(t *testing.T) {
 	t.Run("with restrospectives with same team", func(t *testing.T) {
 		dbMock.CleanDatabase()
