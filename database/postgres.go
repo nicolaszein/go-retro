@@ -2,11 +2,8 @@ package database
 
 import (
 	"github.com/jinzhu/gorm"
+	"github.com/nicolaszein/go-retro/models"
 )
-
-type Database interface {
-	Create(interface{}) error
-}
 
 // Postgres implementing Database interface
 type Postgres struct {
@@ -26,10 +23,6 @@ func NewPostgres(url string) (*Postgres, error) {
 	return &Postgres{db}, nil
 }
 
-type Mock struct {
-	Error error
-}
-
-func (m Mock) Create(interface{}) error {
-	return m.Error
+func (p Postgres) CleanDatabase() {
+	p.DB.Unscoped().Delete(&models.Team{})
 }

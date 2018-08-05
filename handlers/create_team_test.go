@@ -12,7 +12,7 @@ import (
 )
 
 func TestCreateTeamHandler(t *testing.T) {
-	//cleanDatabase(testDB)
+	testDB.CleanDatabase()
 	handler := http.HandlerFunc(env.CreateTeam)
 	type response struct {
 		Data   models.Team       `json:"data"`
