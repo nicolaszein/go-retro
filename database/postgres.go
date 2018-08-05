@@ -1,6 +1,7 @@
 package database
 
 import (
+	"github.com/gobuffalo/uuid"
 	"github.com/jinzhu/gorm"
 	"github.com/nicolaszein/go-retro/models"
 )
@@ -24,5 +25,14 @@ func NewPostgres(url string) (*Postgres, error) {
 }
 
 func (p Postgres) CleanDatabase() {
+	p.DB.Unscoped().Delete(&models.Retrospective{})
 	p.DB.Unscoped().Delete(&models.Team{})
+}
+
+func (p Postgres) FetchTeamByID(team_id uuid.UUID, team *models.Team) error {
+	return p.DB.Where("id = ?", team_id).First(team).Error
+}
+
+func (p Postgres) FetchRestrospectivesByTeamID(team_id uuid.UUID, retrospectives *[]models.Retrospective) error {
+	return p.DB.Where("team_id = ?", team_id).Find(retrospectives).Error
 }
