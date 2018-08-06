@@ -4,11 +4,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/joho/godotenv"
 	"github.com/nicolaszein/go-retro/database"
-	"github.com/nicolaszein/go-retro/models"
 )
 
 var (
@@ -35,8 +33,4 @@ func init() {
 	}
 
 	dbMock = &database.Mock{}
-}
-
-func cleanDatabase(db *gorm.DB) {
-	db.Unscoped().Delete(&models.Team{})
 }

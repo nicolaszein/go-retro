@@ -12,7 +12,6 @@ import (
 )
 
 func TestCreateTeamHandler(t *testing.T) {
-	testDB.CleanDatabase()
 	handler := http.HandlerFunc(env.CreateTeam)
 	type response struct {
 		Data   models.Team       `json:"data"`
@@ -20,6 +19,7 @@ func TestCreateTeamHandler(t *testing.T) {
 	}
 
 	t.Run("with valid payload", func(t *testing.T) {
+		testDB.CleanDatabase()
 		res := response{}
 		params := strings.NewReader(`{"name": "Team Bacon"}`)
 		req, err := http.NewRequest("POST", "/api/v1/teams", params)
