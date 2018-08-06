@@ -48,6 +48,22 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: retrospectives; Type: TABLE; Schema: public; Owner: development
+--
+
+CREATE TABLE public.retrospectives (
+    id uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    name character varying(255) NOT NULL,
+    team_id uuid NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    deleted_at timestamp without time zone
+);
+
+
+ALTER TABLE public.retrospectives OWNER TO development;
+
+--
 -- Name: schema_migration; Type: TABLE; Schema: public; Owner: development
 --
 
@@ -74,6 +90,14 @@ CREATE TABLE public.teams (
 ALTER TABLE public.teams OWNER TO development;
 
 --
+-- Name: retrospectives retrospectives_pkey; Type: CONSTRAINT; Schema: public; Owner: development
+--
+
+ALTER TABLE ONLY public.retrospectives
+    ADD CONSTRAINT retrospectives_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: teams teams_pkey; Type: CONSTRAINT; Schema: public; Owner: development
 --
 
@@ -86,6 +110,14 @@ ALTER TABLE ONLY public.teams
 --
 
 CREATE UNIQUE INDEX schema_migration_version_idx ON public.schema_migration USING btree (version);
+
+
+--
+-- Name: retrospectives retrospectives_team_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: development
+--
+
+ALTER TABLE ONLY public.retrospectives
+    ADD CONSTRAINT retrospectives_team_id_fkey FOREIGN KEY (team_id) REFERENCES public.teams(id);
 
 
 --
