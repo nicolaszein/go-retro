@@ -18,6 +18,16 @@ func TestMockCreate(t *testing.T) {
 	}
 }
 
+func TestMockFetchTeams(t *testing.T) {
+	dbMock.CleanDatabase()
+	dbMock.Error = errors.New("Error trying to fetch teams")
+
+	teams := []models.Team{}
+	if err := dbMock.FetchTeams(&teams); err == nil {
+		t.Fatalf("teams should be nil, but got %v", teams)
+	}
+}
+
 func TestMockFetchRetrospectivesByTeamID(t *testing.T) {
 	t.Run("with restrospectives with same team", func(t *testing.T) {
 		dbMock.CleanDatabase()

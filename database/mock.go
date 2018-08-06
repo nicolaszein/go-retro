@@ -12,8 +12,13 @@ type Mock struct {
 func (m Mock) Create(interface{}) error {
 	return m.Error
 }
+
 func (m Mock) CleanDatabase() {}
 
 func (m Mock) FetchRestrospectivesByTeamID(team_id uuid.UUID, retrospectives *[]models.Retrospective) error {
+	return m.Error
+}
+
+func (m Mock) FetchTeams(interface{}) error {
 	return m.Error
 }
