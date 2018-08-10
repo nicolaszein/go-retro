@@ -6,8 +6,9 @@ import (
 )
 
 type Mock struct {
-	Error                       error
-	FetchRetrospectiveByIDError error
+	Error              error
+	FetchTeamByIDError error
+  FetchRetrospectiveByIDError error
 }
 
 func (m Mock) Create(interface{}) error {
@@ -16,14 +17,20 @@ func (m Mock) Create(interface{}) error {
 
 func (m Mock) CleanDatabase() {}
 
-func (m Mock) FetchRestrospectivesByTeamID(team_id uuid.UUID, retrospectives *[]models.Retrospective) error {
+// Teams
+func (m Mock) FetchTeams(interface{}) error {
 	return m.Error
+}
+
+func (m Mock) FetchTeamByID(team_id uuid.UUID, team *models.Team) error {
+	return m.FetchTeamByIDError
+}
+
+// Retrospectives
+func (m Mock) FetchRestrospectivesByTeamID(team_id uuid.UUID, retrospectives *[]models.Retrospective) error {
+  return m.Error
 }
 
 func (m Mock) FetchRetrospectiveByID(retrospective_id uuid.UUID, retrospective *models.Retrospective) error {
 	return m.FetchRetrospectiveByIDError
-}
-
-func (m Mock) FetchTeams(interface{}) error {
-	return m.Error
 }

@@ -37,6 +37,10 @@ func main() {
 			r.Get("/", env.ListTeams)
 			r.Post("/", env.CreateTeam)
 		})
+
+		r.Route("/retrospectives", func(r chi.Router) {
+			r.Post("/", env.CreateRetrospective)
+		})
 	})
 
 	err = http.ListenAndServe(":"+port, r)

@@ -28,6 +28,17 @@ func TestMockFetchTeams(t *testing.T) {
 	}
 }
 
+func TestMockFetchTeamByID(t *testing.T) {
+	dbMock.CleanDatabase()
+	dbMock.FetchTeamByIDError = errors.New("Error trying to fetch teams")
+	uuid, _ := uuid.NewV4()
+
+	team := models.Team{}
+	if err := dbMock.FetchTeamByID(uuid, &team); err == nil {
+		t.Fatalf("teams should be nil, but got %v", team)
+	}
+}
+
 func TestMockFetchRetrospectivesByTeamID(t *testing.T) {
 	t.Run("with restrospectives with same team", func(t *testing.T) {
 		dbMock.CleanDatabase()
