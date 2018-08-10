@@ -224,3 +224,33 @@ func TestFetchRetrospectivesByTeamID(t *testing.T) {
 		}
 	})
 }
+
+func TestFetchRetrospectiveByID(t *testing.T) {
+	t.Run("with a persisted retrospective", func(t *testing.T) {
+		testDB.CleanDatabase()
+		team := models.Team{Name: "Team Bacon"}
+		persistedRetrospective := models.Retrospective{Name: "Retrospective Bacon", Team: team}
+
+		if err := testDB.Create(&persistedRetrospective); err != nil {
+			t.Fatalf("Failed creating persistedRetrospective %v", err)
+		}
+
+		retrospective := models.Retrospective{}
+		if err := testDB.FetchRetrospectiveByID(persistedRetrospective.ID, &retrospective); err != nil {
+			t.Fatalf("err should be nil, but got %v", err)
+		}
+	})
+
+	t.Run("with no retrospective", func(t *testing.T) {
+		testDB.CleanDatabase()
+		retrospective := models.Retrospective{}
+		retrospectiveID, err := uuid.NewV4()
+		if err != nil {
+			t.Fatalf("error trying to create uuid")
+		}
+
+		if err := testDB.FetchRetrospectiveByID(retrospectiveID, &retrospective); err == nil {
+			t.Fatalf("Retrospective should be nil, but got %v", retrospective)
+		}
+	})
+}

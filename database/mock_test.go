@@ -43,3 +43,17 @@ func TestMockFetchRetrospectivesByTeamID(t *testing.T) {
 		}
 	})
 }
+
+func TestMockFetchRetrospectiveByID(t *testing.T) {
+	dbMock.CleanDatabase()
+	dbMock.FetchRetrospectiveByIDError = errors.New("Error trying to fetch retrospective")
+	retrospectiveID, err := uuid.NewV4()
+	if err != nil {
+		t.Fatalf("error trying to create uuid")
+	}
+
+	retrospective := models.Retrospective{}
+	if err := dbMock.FetchRetrospectiveByID(retrospectiveID, &retrospective); err == nil {
+		t.Fatalf("retrospective should be nil, but got %v", retrospective)
+	}
+}

@@ -25,6 +25,7 @@ func (p Postgres) Create(s interface{}) error {
 }
 
 func (p Postgres) CleanDatabase() {
+	p.DB.Unscoped().Delete(&models.Card{})
 	p.DB.Unscoped().Delete(&models.Retrospective{})
 	p.DB.Unscoped().Delete(&models.Team{})
 }
@@ -41,4 +42,8 @@ func (p Postgres) FetchTeamByID(team_id uuid.UUID, team *models.Team) error {
 // Retrospectives
 func (p Postgres) FetchRestrospectivesByTeamID(team_id uuid.UUID, retrospectives *[]models.Retrospective) error {
 	return p.DB.Where("team_id = ?", team_id).Find(retrospectives).Error
+}
+
+func (p Postgres) FetchRetrospectiveByID(retrospective_id uuid.UUID, retrospective *models.Retrospective) error {
+	return p.DB.Where("id = ?", retrospective_id).First(retrospective).Error
 }
