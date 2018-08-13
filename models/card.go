@@ -10,3 +10,7 @@ type Card struct {
 	Votes           int           `json:"votes" db:"votes"`
 	Type            string        `json:"type" db:"type" valid:"matches(^positive$|^negative$),required"`
 }
+
+func (card *Card) AddVote() {
+	card.Votes += 1
+}
