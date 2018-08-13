@@ -254,3 +254,34 @@ func TestFetchRetrospectiveByID(t *testing.T) {
 		}
 	})
 }
+
+func TestFetchCardByID(t *testing.T) {
+	t.Run("with a persisted card", func(t *testing.T) {
+		testDB.CleanDatabase()
+		team := models.Team{Name: "Team Bacon"}
+		retrospective := models.Retrospective{Name: "Retrospective Bacon", Team: team}
+		persistedCard := models.Card{Content: "content", Type: "negative", Retrospective: retrospective}
+
+		if err := testDB.Create(&persistedCard); err != nil {
+			t.Fatalf("Failed creating persistedCard %v", err)
+		}
+
+		card := models.Card{}
+		if err := testDB.FetchCardByID(persistedCard.ID, &card); err != nil {
+			t.Fatalf("err should be nil, but got %v", err)
+		}
+	})
+
+	t.Run("with no card", func(t *testing.T) {
+		testDB.CleanDatabase()
+		card := models.Card{}
+		cardID, err := uuid.NewV4()
+		if err != nil {
+			t.Fatalf("error trying to create uuid")
+		}
+
+		if err := testDB.FetchCardByID(cardID, &card); err == nil {
+			t.Fatalf("card should be nil, but got %v", card)
+		}
+	})
+}
