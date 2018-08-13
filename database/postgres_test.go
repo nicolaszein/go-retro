@@ -28,6 +28,27 @@ func TestCreate(t *testing.T) {
 	})
 }
 
+func TestSave(t *testing.T) {
+	t.Run("with valid interface", func(t *testing.T) {
+		testDB.CleanDatabase()
+		team := models.Team{Name: "Team Bacon"}
+
+		if err := testDB.Create(&team); err != nil {
+			t.Fatalf("Failed creating team %v", err)
+		}
+
+		team.Name = "Team Banana"
+
+		if err := testDB.Save(&team); err != nil {
+			t.Fatalf("Failed saving team %v", err)
+		}
+
+		if team.Name != "Team Banana" {
+			t.Fatalf("team name should be Team Banana, but got %v", team.Name)
+		}
+	})
+}
+
 func TestNewConnection(t *testing.T) {
 	t.Run("with valid db", func(t *testing.T) {
 		url := os.Getenv("TEST_DATABASE_URL")

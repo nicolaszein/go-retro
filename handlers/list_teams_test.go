@@ -11,6 +11,7 @@ import (
 )
 
 func TestListTeamsHandler(t *testing.T) {
+	testDB.CleanDatabase()
 	env = Env{
 		DB: testDB,
 	}

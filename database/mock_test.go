@@ -18,6 +18,16 @@ func TestMockCreate(t *testing.T) {
 	}
 }
 
+func TestMockSave(t *testing.T) {
+	dbMock.CleanDatabase()
+	team := models.Team{}
+	dbMock.Error = errors.New("error trying to save team")
+
+	if err := dbMock.Save(&team).Error; err == nil {
+		t.Fatalf("err should have value but got nil")
+	}
+}
+
 func TestMockFetchTeams(t *testing.T) {
 	dbMock.CleanDatabase()
 	dbMock.Error = errors.New("Error trying to fetch teams")
@@ -71,7 +81,7 @@ func TestMockFetchRetrospectiveByID(t *testing.T) {
 
 func TestMockFetchCardByID(t *testing.T) {
 	dbMock.CleanDatabase()
-	dbMock.Error = errors.New("Error trying to fetch card")
+	dbMock.FetchCardByIDError = errors.New("Error trying to fetch card")
 	cardID, err := uuid.NewV4()
 	if err != nil {
 		t.Fatalf("error trying to create uuid")
