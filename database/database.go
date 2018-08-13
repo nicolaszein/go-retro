@@ -11,4 +11,5 @@ type Database interface {
 	FetchTeams(interface{}) error
 	FetchTeamByID(uuid.UUID, *models.Team) error
 	FetchRetrospectiveByID(uuid.UUID, *models.Retrospective) error
+	FetchCardByID(uuid.UUID, *models.Card) error
 }

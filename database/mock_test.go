@@ -68,3 +68,17 @@ func TestMockFetchRetrospectiveByID(t *testing.T) {
 		t.Fatalf("retrospective should be nil, but got %v", retrospective)
 	}
 }
+
+func TestMockFetchCardByID(t *testing.T) {
+	dbMock.CleanDatabase()
+	dbMock.Error = errors.New("Error trying to fetch card")
+	cardID, err := uuid.NewV4()
+	if err != nil {
+		t.Fatalf("error trying to create uuid")
+	}
+
+	card := models.Card{}
+	if err := dbMock.FetchCardByID(cardID, &card); err == nil {
+		t.Fatalf("card should be nil, but got %v", card)
+	}
+}

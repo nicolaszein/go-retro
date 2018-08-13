@@ -47,3 +47,8 @@ func (p Postgres) FetchRestrospectivesByTeamID(team_id uuid.UUID, retrospectives
 func (p Postgres) FetchRetrospectiveByID(retrospective_id uuid.UUID, retrospective *models.Retrospective) error {
 	return p.DB.Where("id = ?", retrospective_id).First(retrospective).Error
 }
+
+// Cards
+func (p Postgres) FetchCardByID(card_id uuid.UUID, card *models.Card) error {
+	return p.DB.Where("id = ?", card_id).First(card).Error
+}

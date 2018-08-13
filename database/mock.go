@@ -34,3 +34,8 @@ func (m Mock) FetchRestrospectivesByTeamID(team_id uuid.UUID, retrospectives *[]
 func (m Mock) FetchRetrospectiveByID(retrospective_id uuid.UUID, retrospective *models.Retrospective) error {
 	return m.FetchRetrospectiveByIDError
 }
+
+// Cards
+func (m Mock) FetchCardByID(card_id uuid.UUID, card *models.Card) error {
+	return m.Error
+}
