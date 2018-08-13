@@ -6,8 +6,9 @@ import (
 )
 
 type Mock struct {
-	Error              error
-	FetchTeamByIDError error
+	Error                       error
+	FetchTeamByIDError          error
+	FetchRetrospectiveByIDError error
 }
 
 func (m Mock) Create(interface{}) error {
@@ -28,4 +29,8 @@ func (m Mock) FetchTeamByID(team_id uuid.UUID, team *models.Team) error {
 // Retrospectives
 func (m Mock) FetchRestrospectivesByTeamID(team_id uuid.UUID, retrospectives *[]models.Retrospective) error {
 	return m.Error
+}
+
+func (m Mock) FetchRetrospectiveByID(retrospective_id uuid.UUID, retrospective *models.Retrospective) error {
+	return m.FetchRetrospectiveByIDError
 }
