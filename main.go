@@ -40,7 +40,11 @@ func main() {
 
 		r.Route("/retrospectives", func(r chi.Router) {
 			r.Post("/", env.CreateRetrospective)
-			r.Post("/{retrospectiveID}/cards", env.CreateCard)
+
+			// Cards
+			r.Route("/{retrospectiveID}/cards", func(r chi.Router) {
+				r.Post("/", env.CreateCard)
+			})
 		})
 	})
 
