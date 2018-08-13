@@ -15,6 +15,7 @@ import (
 )
 
 func TestCreateCardHandler(t *testing.T) {
+	testDB.CleanDatabase()
 	type response struct {
 		Data   models.Card       `json:"data"`
 		Errors map[string]string `json:"errors"`

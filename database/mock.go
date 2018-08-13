@@ -9,9 +9,14 @@ type Mock struct {
 	Error                       error
 	FetchTeamByIDError          error
 	FetchRetrospectiveByIDError error
+	FetchCardByIDError          error
 }
 
 func (m Mock) Create(interface{}) error {
+	return m.Error
+}
+
+func (m Mock) Save(interface{}) error {
 	return m.Error
 }
 
@@ -37,5 +42,5 @@ func (m Mock) FetchRetrospectiveByID(retrospective_id uuid.UUID, retrospective *
 
 // Cards
 func (m Mock) FetchCardByID(card_id uuid.UUID, card *models.Card) error {
-	return m.Error
+	return m.FetchCardByIDError
 }

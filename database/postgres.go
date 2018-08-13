@@ -24,6 +24,10 @@ func (p Postgres) Create(s interface{}) error {
 	return p.DB.Create(s).Error
 }
 
+func (p Postgres) Save(s interface{}) error {
+	return p.DB.Save(s).Error
+}
+
 func (p Postgres) CleanDatabase() {
 	p.DB.Unscoped().Delete(&models.Card{})
 	p.DB.Unscoped().Delete(&models.Retrospective{})

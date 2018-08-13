@@ -14,6 +14,7 @@ import (
 )
 
 func TestCreateRetrospectiveHandler(t *testing.T) {
+	testDB.CleanDatabase()
 	env = Env{
 		DB: testDB,
 	}
