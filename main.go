@@ -46,6 +46,7 @@ func main() {
 	r.Route("/api/v1", func(r chi.Router) {
 		r.Route("/teams", func(r chi.Router) {
 			r.Get("/", env.ListTeams)
+			r.Get("/{teamID}", env.FetchTeam)
 			r.Post("/", env.CreateTeam)
 		})
 
