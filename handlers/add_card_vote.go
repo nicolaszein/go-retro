@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/go-chi/chi"
@@ -33,7 +32,6 @@ func (e Env) AddCardVote(w http.ResponseWriter, r *http.Request) {
 
 	retrospectiveID := chi.URLParam(r, "retrospectiveID")
 	retrospectiveUUID, err := uuid.FromString(retrospectiveID)
-	fmt.Println("handler: ", retrospectiveUUID)
 	if err != nil {
 		response.Code = http.StatusBadRequest
 		response.AddError("retrospective_id", "invalid format")

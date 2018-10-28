@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi"
+	"github.com/go-chi/cors"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/nicolaszein/go-retro/database"
 	"github.com/nicolaszein/go-retro/handlers"
@@ -26,6 +27,16 @@ func main() {
 	fmt.Println("Starting server on port " + port)
 
 	r := chi.NewRouter()
+	cors := cors.New(cors.Options{
+		AllowedOrigins:   []string{"*"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
+		ExposedHeaders:   []string{"Link"},
+		AllowCredentials: true,
+		MaxAge:           300,
+	})
+	r.Use(cors.Handler)
+
 	r.Get("/", handlers.HealthCheck)
 
 	env := handlers.Env{
@@ -40,6 +51,7 @@ func main() {
 
 		r.Route("/retrospectives", func(r chi.Router) {
 			r.Post("/", env.CreateRetrospective)
+			r.Get("/{retrospectiveID}", env.FetchRetrospective)
 
 			// Cards
 			r.Route("/{retrospectiveID}/cards", func(r chi.Router) {

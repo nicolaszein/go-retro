@@ -69,7 +69,7 @@ func TestCreateRetrospectiveHandler(t *testing.T) {
 	t.Run("with nonexistent team", func(t *testing.T) {
 		testDB.CleanDatabase()
 		res := response{}
-		uuid, err := uuid.NewV4()
+		uuid, _ := uuid.NewV4()
 		payload := fmt.Sprintf(`{"name": "Retrospective", "team_id": "%v"}`, uuid)
 		params := strings.NewReader(payload)
 		req, err := http.NewRequest("POST", "/api/v1/retrospectives", params)
@@ -136,7 +136,7 @@ func TestCreateRetrospectiveHandler(t *testing.T) {
 		}
 		handler := http.HandlerFunc(env.CreateRetrospective)
 		res := response{}
-		uuid, err := uuid.NewV4()
+		uuid, _ := uuid.NewV4()
 		payload := fmt.Sprintf(`{"name": "Retrospective", "team_id": "%v"}`, uuid)
 		params := strings.NewReader(payload)
 		req, err := http.NewRequest("POST", "/api/v1/retrospectives", params)
