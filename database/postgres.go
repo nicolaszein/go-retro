@@ -40,7 +40,7 @@ func (p Postgres) FetchTeams(s interface{}) error {
 }
 
 func (p Postgres) FetchTeamByID(team_id uuid.UUID, team *models.Team) error {
-	return p.DB.Where("id = ?", team_id).First(team).Error
+	return p.DB.Where("id = ?", team_id).Preload("Retrospectives").First(team).Error
 }
 
 // Retrospectives
