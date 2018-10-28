@@ -14,6 +14,12 @@
   version = "v3.3.2"
 
 [[projects]]
+  name = "github.com/go-chi/cors"
+  packages = ["."]
+  revision = "dba6525398619dead495962a916728e7ee2ca322"
+  version = "v1.0.0"
+
+[[projects]]
   name = "github.com/gobuffalo/uuid"
   packages = ["."]
   revision = "3a9fb6c5c481d4886f1e9323c61ad743fb955860"
@@ -53,6 +59,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "bae9e307e33f97381568dcde1bfddc72f06747162c617f39bc3fca6cbcd45d45"
+  inputs-digest = "6f74c8ce3ada7a0cd828521511fc2f1825801e7b86537b11ca95ee8c38be2b19"
   solver-name = "gps-cdcl"
   solver-version = 1
